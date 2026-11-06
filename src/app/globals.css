@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ══════════════════════════════════════
+   REGRAS DE IMPRESSÃO DE ETIQUETAS
+   ══════════════════════════════════════ */
+
+/* Área de impressão: oculta na tela */
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+
+/* Dimensões exatas da mídia térmica de 2 colunas: 82mm x 30mm por par/linha. Margem zero remove cabeçalhos/rodapés do navegador */
+@page {
+  size: 82mm 30mm;
+  margin: 0;
+}
+
+@media print {
+  /* Remove do fluxo TUDO que não é a área de impressão */
+  body > *:not(.print-only) {
+    display: none !important;
+  }
+
+  /* Elementos de UI que nunca devem aparecer na impressão */
+  .no-print,
+  header,
+  nav,
+  aside,
+  footer,
+  button,
+  input,
+  select,
+  .sidebar,
+  .top-header {
+    display: none !important;
+  }
+
+  /* Reset rigoroso para impressão térmica 1:1 sem redimensionamento */
+  html, body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 82mm !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-only,
+  .print-only * {
+    visibility: visible !important;
+  }
+
+  .print-only {
+    display: block !important;
+    position: static !important;
+    width: 82mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Cada par de etiquetas 82x30mm quebra exatamente como 1 página física da impressora */
+  .print-label-pair {
+    width: 82mm !important;
+    height: 30mm !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+}
